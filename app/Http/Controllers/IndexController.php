@@ -12,7 +12,7 @@ class IndexController extends SiteController
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-        parent::__construct();
+        parent::__construct( new \App\Repositories\MenusRepository(new \App\Menu));
 
         $this->template = env('THEME').'.index';
         $this->bar = 'right';
