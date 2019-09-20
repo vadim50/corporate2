@@ -29,14 +29,14 @@ class SiteController extends Controller
 
     }
 
-    protected function renderOutput(){
+    public function renderOutput(){
 
     	$menu = $this->getMenu();
     	//dd($menu);
 
     	$navigation = view(env('THEME').'.navigation')->with('menu',$menu)->render();
-    	$this->vars = ['navigation'=>$navigation];
-    	//print_r($this->vars);
+    	$this->vars['navigation'] = $navigation;
+    	//dd($this->vars);
     	return view($this->template)->with($this->vars);
     }
 
