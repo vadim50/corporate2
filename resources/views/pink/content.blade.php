@@ -1,10 +1,10 @@
-@if($portfolios))
+@if($portfolios)
 
 <div id="content-home" class="content group">
     <div class="hentry group">
         <div class="section portfolio">
             
-            <h3 class="title">Latest projects</h3>
+            <h3 class="title">{{ __('ru.latest_projects') }}</h3>
 @foreach($portfolios as $k=>$item)
 
 	@if($k == 0)
@@ -38,7 +38,7 @@
                         <div class="overlay_wrapper">
                             <img src="{{ asset(env('THEME')) }}/images/projects/{{ $item->img->mini }}" alt="0061" title="0061" />						
                             <div class="overlay">
-                                <a class="overlay_img" href="{{ asset(env('THEME')) }}/images/projects/0061.jpg" rel="lightbox" title=""></a>
+                                <a class="overlay_img" href="{{ asset(env('THEME')) }}/images/projects/{{ $item->img->max }}" rel="lightbox" title=""></a>
                                 <a class="overlay_project" href="{{ route('portfolios.show',['alias'=>$item->alias]) }}"></a>
                                 <span class="overlay_title">{{ $item->title }}</span>
                             </div>
