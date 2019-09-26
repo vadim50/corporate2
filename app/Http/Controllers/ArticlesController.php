@@ -3,9 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\PortfoliosRepository;
+use App\Repositories\ArticlesRepository;
 
-class ArticlesController extends Controller
+class ArticlesController extends SiteController
 {
+
+    public function __construct(
+        PortfoliosRepository $p_rep,
+        ArticlesRepository $a_rep){
+        parent::__construct( new \App\Repositories\MenusRepository(new \App\Menu));
+
+        $this->p_rep = $p_rep;
+        $this->a_rep = $a_rep;
+
+        $this->template = env('THEME').'.articles';
+        $this->bar = 'right';
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +28,23 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        //
+
+        $articles = $this->getArticles();
+
+
+        return $this->renderOutput();
+    }
+
+    public function getArticles($alias=false){
+
+        $articles= $this->a_rep->get(['title','alias','created_at','img','desc'],false,true);
+
+        if($articles){
+            //$articles->load('user','category','comments');
+        }
+
+        return $articles;
+
     }
 
     /**
