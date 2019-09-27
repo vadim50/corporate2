@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-	{!! $section !!}
+	{!! $content !!}
 @endsection
 
 @section('bar')
-	{!! $rightBar !!}
+	{!! isset($rightBar) ? $rightBar : '' !!}
 @endsection
 
 @section('footer')

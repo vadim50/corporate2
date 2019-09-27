@@ -1,24 +1,26 @@
 <div id="content-blog" class="content group">
-    
-    <div class="sticky hentry hentry-post blog-big group">
+@if($articles)
+
+@foreach($articles as $article)
+        <div class="sticky hentry hentry-post blog-big group">
         <!-- post featured & title -->
         <div class="thumbnail">
             <!-- post title -->
-            <h2 class="post-title"><a href="article.html">Section shortcodes &amp; sticky posts!</a></h2>
+            <h2 class="post-title"><a href="{{ route('articles.show',['alias'=>$article->alias]) }}">{{ $article->title }}</a></h2>
             <!-- post featured -->
             <div class="image-wrap">
-                <img src="images/articles/001-816x282.jpg" alt="001" title="001" />        
+                <img src="{{ asset(env('THEME')) }}/images/articles/{{ $article->img->max }}" alt="001" title="001" />        
             </div>
             <p class="date">
-                <span class="month">Sep</span>
-                <span class="day">24</span>
+                <span class="month">{{ $article->created_at->format('M') }}</span>
+                <span class="day">{{ $article->created_at->format('d') }}</span>
             </p>
         </div>
         <!-- post meta -->
         <div class="meta group">
-            <p class="author"><span>by <a href="#" title="Posts by Nicola Mustone" rel="author">Nicola Mustone</a></span></p>
-            <p class="categories"><span>In: <a href="#" title="View all posts in Happyness" rel="category tag">Happyness</a>, <a href="#" title="View all posts in Romantic Vintage" rel="category tag">Romantic Vintage</a></span></p>
-            <p class="comments"><span><a href="article.html#respond" title="Comment on Section shortcodes &amp; sticky posts!">No comments</a></span></p>
+            <p class="author"><span>by <a href="#" title="Posts by {{ $article->user->name }}" rel="author">{{ $article->user->name }}</a></span></p>
+            <p class="categories"><span>In: <a href="{{ route('articlesCat',['cat_alias'=>$article->category->alias]) }}" title="View all posts in {{ $article->category->title }}" rel="category tag">{{ $article->category->title }}</a></span></p>
+            <p class="comments"><span><a href="{{ route('articles.show',['alias'=>$article->alias]) }}#respond" title="Comment on Section shortcodes &amp; sticky posts!">{{ count($article->comments) ? count($article->comments) : '0' }} {{ Lang::choice('ru.comments',count($article->comments) ) }}</a></span></p>
         </div>
         <!-- post content -->
         <div class="the-content group">
@@ -30,6 +32,8 @@
         <div class="clear"></div>
     </div>
     
+@endforeach
+
     <div class="hentry hentry-post blog-big group">
         <!-- post featured & title -->
         <div class="thumbnail">
@@ -61,5 +65,5 @@
     </div>
     
     <div class="general-pagination group"><a href="#" class="selected">1</a><a href="#">2</a><a href="#">&rsaquo;</a></div>
-    
+@endif    
 </div>
