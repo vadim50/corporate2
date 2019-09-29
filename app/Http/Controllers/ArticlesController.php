@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\ArticlesRepository;
+use App\Repositories\CommentsRepository;
+use Illuminate\Support\Str;
+
 
 class ArticlesController extends SiteController
 {
 
     public function __construct(
         PortfoliosRepository $p_rep,
-        ArticlesRepository $a_rep){
+        ArticlesRepository $a_rep,
+        CommentsRepository $c_rep){
         parent::__construct( new \App\Repositories\MenusRepository(new \App\Menu));
 
         $this->p_rep = $p_rep;
         $this->a_rep = $a_rep;
+        $this->c_rep = $c_rep;
 
         $this->template = env('THEME').'.articles';
         $this->bar = 'right';
@@ -35,8 +40,33 @@ class ArticlesController extends SiteController
 
         $this->vars['content'] = $content;
 
+        $comments = $this->getComments(config('settings.recent_comments'));
+        $portfolios = $this->getPortfolios(config('settings.recent_portfolios'));
+
+        $this->contentRightBar = view(env('THEME').'.articlesBar')->with(['comments'=>$comments,'portfolios'=>$portfolios]);
+
 
         return $this->renderOutput();
+    }
+
+    public function getComments($take){
+
+        $comments = $this->c_rep->get(['text','name','email','site','article_id','user_id'],$take);
+
+        //dd($comments);
+
+        return $comments;
+
+    }
+
+    public function getPortfolios($take){
+
+        $portfolios = $this->p_rep->get(['title','text','alias','customer','img','alias'],$take);
+
+        //dd($portfolios);
+
+        return $portfolios;
+
     }
 
     public function getArticles($alias=false){
