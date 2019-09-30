@@ -2,7 +2,7 @@
 <div id="sidebar-blog-sidebar">
     
     <div class="widget-first widget recent-posts">
-        <h3>{{ lang::get('ru.latest_projects') }}</h3>
+        <h3>{{ Lang::get('ru.latest_projects') }}</h3>
         <div class="recent-post group">
 @if(!$portfolios->isEmpty())
 	@foreach($portfolios as $portfolio)
